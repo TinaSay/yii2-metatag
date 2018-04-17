@@ -24,7 +24,9 @@ class m180412_130129_insert_row extends Migration
      */
     public function safeDown()
     {
-        $this->dropIndex('model-recordId', '{{%metatag}}');
-        $this->delete('{{%metatag}}', ['recordId' => 0]);
+        $this->delete('{{%metatag}}', [
+            'model' => 'index',
+            'recordId' => 0,
+        ]);
     }
 }
