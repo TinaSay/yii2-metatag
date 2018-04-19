@@ -81,7 +81,7 @@ class MetatagWidget extends Widget
             $this->model->description,
         ];
 
-        if ($this->model->id == null) {
+        if ($this->isIndex == true) {
             $this->view->title = $meta->title;
             $this->view->registerMetaTag([
                 'name' => 'keywords',
