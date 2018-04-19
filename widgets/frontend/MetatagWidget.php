@@ -67,7 +67,7 @@ class MetatagWidget extends Widget
         ])->one();
 
         $title = [
-            $meta->title,
+            $this->pageTitle,
             $this->model->title,
         ];
 
@@ -81,28 +81,39 @@ class MetatagWidget extends Widget
             $this->model->description,
         ];
 
-        if ($this->model->commonTitle == Metatag::COMMON_YES) {
-            array_push($title, $meta->title);
+        if ($this->model->id == null) {
+            $this->view->title = $meta->title;
+            $this->view->registerMetaTag([
+                'name' => 'keywords',
+                'content' => $meta->keywords,
+            ]);
+            $this->view->registerMetaTag([
+                'name' => 'description',
+                'content' => $meta->description,
+            ]);
+        } else {
+            if ($this->model->commonTitle == Metatag::COMMON_YES) {
+                array_push($title, $meta->title);
+            }
+
+            if ($this->model->commonKeywords == Metatag::COMMON_YES) {
+                array_push($keywords, $meta->keywords);
+            }
+
+            if ($this->model->commonDescription == Metatag::COMMON_YES) {
+                array_push($description, $meta->description);
+            }
+            $this->view->title = implode($this->separator, array_diff($title, ['']));
+
+            $this->view->registerMetaTag([
+                'name' => 'keywords',
+                'content' => implode($this->separator, array_diff($keywords, [''])),
+            ], 'keywords');
+
+            $this->view->registerMetaTag([
+                'name' => 'description',
+                'content' => implode($this->separator, array_diff($description, [''])),
+            ], 'description');
         }
-
-        if ($this->model->commonKeywords == Metatag::COMMON_YES) {
-            array_push($keywords, $meta->keywords);
-        }
-
-        if ($this->model->commonDescription == Metatag::COMMON_YES) {
-            array_push($description, $meta->description);
-        }
-
-        $this->view->title = implode($this->separator, array_diff($title, ['']));
-
-        $this->view->registerMetaTag([
-            'name' => 'keywords',
-            'content' => implode($this->separator, array_diff($keywords, [''])),
-        ], 'keywords');
-
-        $this->view->registerMetaTag([
-            'name' => 'description',
-            'content' => implode($this->separator, array_diff($description, [''])),
-        ], 'description');
     }
 }
