@@ -33,13 +33,6 @@ class MetatagSingleton
     protected static $instance;
 
     /**
-     * MetatagSingleton constructor.
-     */
-    private function __construct()
-    {
-    }
-
-    /**
      * MetatagSingleton clone
      */
     private function __clone()
@@ -51,17 +44,6 @@ class MetatagSingleton
      */
     private function __wakeup()
     {
-    }
-
-    /**
-     * @return MetatagSingleton|Instance
-     */
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self;
-        }
-        return self::$instance;
     }
 
     /**
