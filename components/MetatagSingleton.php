@@ -19,33 +19,37 @@ use tina\metatag\models\Metatag;
  */
 class MetatagSingleton
 {
-    /** @var Instance */
-    protected static $instance;
-    /**
-     * @var MetatagSingleton
-     */
-    public $model;
-    /**
-     * @var bool
-     */
-    public $isIndex = false;
-    /**
-     * @var string
-     */
-    public $pageTitle;
     /**
      * @var
      */
     public $separator = ' :: ';
+
     /**
      * @var View
      */
     protected $view;
 
+    /** @var Instance */
+    protected static $instance;
+
     /**
      * MetatagSingleton constructor.
      */
     private function __construct()
+    {
+    }
+
+    /**
+     * MetatagSingleton clone
+     */
+    private function __clone()
+    {
+    }
+
+    /**
+     * MetatagSingleton wakeup
+     */
+    private function __wakeup()
     {
     }
 
@@ -62,12 +66,13 @@ class MetatagSingleton
 
     /**
      * @param $model
+     * @param bool $isIndex
      * @param string $view
      *
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
-    public function metatagComposer($model, string $view = 'view')
+    public function metatagComposer($model, $isIndex = false, string $view = 'view')
     {
         $this->view = Instance::ensure($view, View::class);
 
@@ -89,7 +94,7 @@ class MetatagSingleton
             $model->meta->description,
         ];
 
-        if ($this->isIndex == true) {
+        if ($isIndex == true) {
             $this->view->title = $indexMeta->title;
             $this->view->registerMetaTag([
                 'name' => 'keywords',
@@ -121,19 +126,5 @@ class MetatagSingleton
             ], 'description');
         }
         return true;
-    }
-
-    /**
-     * MetatagSingleton clone
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * MetatagSingleton wakeup
-     */
-    private function __wakeup()
-    {
     }
 }
