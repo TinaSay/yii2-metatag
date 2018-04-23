@@ -76,6 +76,17 @@ console:
         ],
     ],
 ```
+common:
+
+```
+'container' => [
+        'singletons' => [
+            \tina\metatag\components\MetatagSingleton::class => [
+                'class' => \tina\metatag\components\MetatagSingleton::class,
+            ],
+        ],
+    ],
+```
 
 Use:
 ----
@@ -96,23 +107,23 @@ Model.php
     }
 ```
 
-Frontend:
+Frontend (Content module only):
 
 index.php
 
 ```
 MetatagWidget::widget([
-    'model' => $model->meta,
+    'model' => $dto->getMeta(),
     'isIndex' => true,
     'pageTitle' => $dto->getTitle(),
-]); 
+]);
 
 ```
 page.php
 
 ```
 MetatagWidget::widget([
-    'model' => $model->meta,
+    'model' => $dto->getMeta(),
     'pageTitle' => $dto->getTitle(),
 ]);
 
