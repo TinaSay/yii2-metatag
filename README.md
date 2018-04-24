@@ -107,26 +107,32 @@ Model.php
     }
 ```
 
-Frontend (Content module only):
-
-index.php
+Controller.php
 
 ```
-MetatagWidget::widget([
-    'model' => $dto->getMeta(),
-    'isIndex' => true,
-    'pageTitle' => $dto->getTitle(),
-]);
+    protected $component;
 
+    public function __construct(string $id, Module $module, MetatagSingleton $component, array $config = [])
+    {
+        $this->component = $component;
+        parent::__construct($id, $module, $config);
+    }
+    
+    
+    public function action()
+    {
+        $this->component->metatagComposer($model);
+    }    
+    
 ```
-page.php
+For index page set second param to true:
 
-```
-MetatagWidget::widget([
-    'model' => $dto->getMeta(),
-    'pageTitle' => $dto->getTitle(),
-]);
-
+```    
+    public function action()
+    {
+        $this->component->metatagComposer($model, true);
+    }    
+    
 ```
 
 Backend:

@@ -8,8 +8,8 @@
 
 namespace tina\metatag\components;
 
-use yii\web\View;
 use yii\di\Instance;
+use yii\web\View;
 use tina\metatag\models\Metatag;
 
 /**
@@ -28,23 +28,6 @@ class MetatagSingleton
      * @var View
      */
     protected $view;
-
-    /** @var Instance */
-    protected static $instance;
-
-    /**
-     * MetatagSingleton clone
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * MetatagSingleton wakeup
-     */
-    private function __wakeup()
-    {
-    }
 
     /**
      * @param $model
