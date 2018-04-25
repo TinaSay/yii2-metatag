@@ -25,6 +25,7 @@ class MetatagBehavior extends Behavior
      * @var string
      */
     public $metaAttribute;
+
     /**
      * @var MetatagService
      */
@@ -112,7 +113,6 @@ class MetatagBehavior extends Behavior
         if ($meta == null) {
             $meta = new Metatag();
         }
-
         $event->sender->{$this->metaAttribute} = $meta;
     }
 }

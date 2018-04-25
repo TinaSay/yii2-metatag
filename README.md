@@ -81,8 +81,8 @@ common:
 ```
 'container' => [
         'singletons' => [
-            \tina\metatag\components\MetatagSingleton::class => [
-                'class' => \tina\metatag\components\MetatagSingleton::class,
+            \tina\metatag\components\Metatag::class => [
+                'class' => \tina\metatag\components\Metatag::class,
             ],
         ],
     ],
@@ -112,7 +112,7 @@ Controller.php
 ```
     protected $component;
 
-    public function __construct(string $id, Module $module, MetatagSingleton $component, array $config = [])
+    public function __construct(string $id, Module $module, Metatag $component, array $config = [])
     {
         $this->component = $component;
         parent::__construct($id, $module, $config);
@@ -121,7 +121,7 @@ Controller.php
     
     public function action()
     {
-        $this->component->metatagComposer($model);
+        $this->component->metatagComposer($model->meta, $model->title);
     }    
     
 ```
@@ -130,7 +130,7 @@ For index page set second param to true:
 ```    
     public function action()
     {
-        $this->component->metatagComposer($model, true);
+        $this->component->metatagComposer($model->meta, $model->title, true);
     }    
     
 ```

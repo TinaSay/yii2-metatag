@@ -5,7 +5,7 @@ namespace tina\metatag\models;
 /**
  * This is the ActiveQuery class for [[Metatag]].
  *
- * @see MetatagSingleton
+ * @see Metatag
  */
 class MetatagQuery extends \yii\db\ActiveQuery
 {
