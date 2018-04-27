@@ -13,7 +13,7 @@ use yii\web\View;
 use tina\metatag\models\Metatag as Model;
 
 /**
- * Class MetatagSingleton
+ * Class Metatag
  *
  * @package tina\metatag\components
  */
@@ -47,10 +47,23 @@ class Metatag
             'recordId' => 0,
         ])->one();
 
-        $title = [
-            $modelTitle,
-            $meta->title,
-        ];
+        $this->view->on(View::EVENT_AFTER_RENDER,
+            function ($event) use ($view, $meta, $indexMeta, $modelTitle, $isIndex) {
+                $title = [
+                    $modelTitle,
+                    $meta->title,
+                ];
+
+                if ($isIndex == true) {
+                    $this->view->title = $indexMeta->title;
+                } else {
+                    if ($meta->commonTitle == Model::COMMON_YES) {
+                        array_push($title, $indexMeta->title);
+                    }
+                    $this->view->title = implode($this->separator, array_diff($title, ['']));
+                }
+            });
+
         $keywords = [
             $meta->title,
             $meta->keywords,
@@ -61,7 +74,6 @@ class Metatag
         ];
 
         if ($isIndex == true) {
-            $this->view->title = $indexMeta->title;
             $this->view->registerMetaTag([
                 'name' => 'keywords',
                 'content' => $indexMeta->keywords,
@@ -71,17 +83,12 @@ class Metatag
                 'content' => $indexMeta->description,
             ]);
         } else {
-
-            if ($meta->commonTitle == Model::COMMON_YES) {
-                array_push($title, $indexMeta->title);
-            }
             if ($meta->commonKeywords == Model::COMMON_YES) {
                 array_push($keywords, $indexMeta->keywords);
             }
             if ($meta->commonDescription == Model::COMMON_YES) {
                 array_push($description, $indexMeta->description);
             }
-            $this->view->title = implode($this->separator, array_diff($title, ['']));
             $this->view->registerMetaTag([
                 'name' => 'keywords',
                 'content' => implode($this->separator, array_diff($keywords, [''])),
@@ -91,6 +98,7 @@ class Metatag
                 'content' => implode($this->separator, array_diff($description, [''])),
             ], 'description');
         }
+
         return true;
     }
 }
