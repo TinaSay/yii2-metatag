@@ -57,7 +57,7 @@ class Metatag
                 if ($isIndex == true) {
                     $this->view->title = $indexMeta->title;
                 } else {
-                    if ($meta->commonTitle == Model::COMMON_YES) {
+                    if ($meta->commonTitle == Model::COMMON_YES || $meta->id == null) {
                         array_push($title, $indexMeta->title);
                     }
                     $this->view->title = implode($this->separator, array_diff($title, ['']));
@@ -83,10 +83,10 @@ class Metatag
                 'content' => $indexMeta->description,
             ]);
         } else {
-            if ($meta->commonKeywords == Model::COMMON_YES) {
+            if ($meta->commonKeywords == Model::COMMON_YES || $meta->id == null) {
                 array_push($keywords, $indexMeta->keywords);
             }
-            if ($meta->commonDescription == Model::COMMON_YES) {
+            if ($meta->commonDescription == Model::COMMON_YES || $meta->id == null) {
                 array_push($description, $indexMeta->description);
             }
             $this->view->registerMetaTag([
