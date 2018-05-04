@@ -65,11 +65,9 @@ class Metatag
             });
 
         $keywords = [
-            $meta->title,
             $meta->keywords,
         ];
         $description = [
-            $meta->title,
             $meta->description,
         ];
 
